@@ -1,0 +1,15 @@
+services:
+  airflow:
+    build: .
+    container_name: airflow-container
+    user: "airflow" 
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags:rw
+      - ./airflow_db:/opt/airflow/airflow_db:rw
+      - ./output:/opt/airflow/output:rw
+    environment:
+      - AIRFLOW__CORE__LOAD_EXAMPLES=False
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=sqlite:////opt/airflow/airflow_db/airflow.db
+    command: bash -c "sleep 10 && airflow dags list && airflow dags unpause etl_pipeline && airflow dags trigger etl_pipeline"

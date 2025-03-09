@@ -1,0 +1,4 @@
+pandas
+requests
+pyarrow<10.1.0,>=10.0.1
+apache-airflow
